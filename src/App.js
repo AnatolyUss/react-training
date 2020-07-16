@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person.js';
+import Person from './Person/Person';
 
 class App extends Component {
   constructor(props) {
@@ -34,11 +34,19 @@ class App extends Component {
   }
 
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
         <h1>Hey, I'm a React app!</h1>
         <h2>{this.state.sample_attribute}</h2>
-        <button onClick={this.switchPersonsHandler}>Switch persons</button>
+        <button style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
         <Person
           click={this.switchPersonsHandler} changed={this.nameChangedHandler}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Person from './Person.css';
+import './Person.css';
 
 class Person extends Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class Person extends Component {
 
   render() {
     return (
-      <div>
+      <div className="Person">
         <p>I am a {this.props.age} years old {this.props.name}!</p>
         <p onClick={this.props.click}>{this.props.children || 'No Text'}</p>
         <input type="text" onChange={this.props.changed} value={this.props.name} />
