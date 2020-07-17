@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import UserInput from './UserInput/UserInput';
+import UserOutput from './UserOutput/UserOutput';
 
 class App extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class App extends Component {
 
   state = {
     sample_attribute: 'sample sample',
+    username: '',
     persons: [
       { name: 'Anna', age: this.getAge(), inner_text: undefined },
       { name: 'Bella', age: this.getAge(), inner_text: 'I\'m good!' },
@@ -29,8 +32,11 @@ class App extends Component {
 
   nameChangedHandler = event => {
     this.state.persons[0].name = event.target.value;
-
     this.setState(this.state.persons);
+  }
+
+  inputUsernameChangeHandler = event => {
+    this.setState({ username: event.target.value });
   }
 
   render() {
@@ -44,6 +50,9 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h1>Assignment 1</h1>
+        <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
+        <UserOutput username={this.state.username} />
         <h1>Hey, I'm a React app!</h1>
         <h2>{this.state.sample_attribute}</h2>
         <button style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
@@ -58,11 +67,6 @@ class App extends Component {
           name={this.state.persons[1].name} age={this.state.persons[1].age}
         >{this.state.persons[1].inner_text}
         </Person>
-        {/*{*/}
-        {/*  this.state.persons.forEach(person => {*/}
-        {/*    <Person name={this.state.persons[1].name} age={this.state.persons[1].age}>{this.state.persons[1].inner_text}</Person>*/}
-        {/*  })*/}
-        {/*}*/}
       </div>
     );
   }
