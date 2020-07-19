@@ -4,6 +4,8 @@ import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import InputField from './InputField/InputField';
+import ValidationComponent from './ValidationComponent/ValidationComponent';
+import CharComponent from './CharComponent/CharComponent';
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +50,26 @@ class App extends Component {
     this.setState({ inputField: event.target.value });
   }
 
+  charComponentOnClickHandler = (event, charPosition) => {
+    const inputFieldClone = this.state.inputField.slice();
+    const inputFieldCloneAsArray = inputFieldClone.split('');
+    inputFieldCloneAsArray.splice(charPosition, 1)
+    const upToDateInputField = inputFieldCloneAsArray.join('');
+    this.setState({ inputField: upToDateInputField });
+  }
+
+  getInputFieldValueAsCharsArray = () => {
+    const inputFieldClone = this.state.inputField.slice();
+
+    return inputFieldClone.split('').map((letter, position) => {
+      return <CharComponent
+        key={position}
+        letter={letter}
+        charComponentOnClick={event => this.charComponentOnClickHandler(event, position)}
+      />
+    });
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -73,6 +95,8 @@ class App extends Component {
           inputFieldValue={this.state.inputField}
           inputFieldLength={this.state.inputField.length}
         />
+        <ValidationComponent inputFieldLength={this.state.inputField.length} />
+        {this.getInputFieldValueAsCharsArray()}
 
         <h1>Assignment 1</h1>
         <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
