@@ -3,6 +3,7 @@ import './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
+import InputField from './InputField/InputField';
 
 class App extends Component {
   constructor(props) {
@@ -16,9 +17,10 @@ class App extends Component {
   state = {
     sample_attribute: 'sample sample',
     username: '',
+    inputField: '',
     persons: [
-      { name: 'Anna', age: this.getAge(), inner_text: undefined },
-      { name: 'Bella', age: this.getAge(), inner_text: 'I\'m good!' },
+      { id: 0, name: 'Anna', age: this.getAge(), inner_text: undefined },
+      { id: 1, name: 'Bella', age: this.getAge(), inner_text: 'I\'m good!' },
     ]
   }
 
@@ -30,13 +32,20 @@ class App extends Component {
     this.setState(this.state.persons);
   }
 
-  nameChangedHandler = event => {
-    this.state.persons[0].name = event.target.value;
-    this.setState(this.state.persons);
+  nameChangedHandler = (event, personId) => {
+    const persons = [...this.state.persons];
+    const person = persons.find(person => person.id === personId);
+    person.name = event.target.value;
+    this.state.persons[personId] = person;
+    this.setState({ persons: persons });
   }
 
   inputUsernameChangeHandler = event => {
     this.setState({ username: event.target.value });
+  }
+
+  inputFieldChangedHandler = event => {
+    this.setState({ inputField: event.target.value });
   }
 
   render() {
@@ -48,8 +57,23 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    const persons = this.state.persons.map(person => {
+      return <Person
+        click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
+        key={person.id} name={person.name} age={person.age}
+      >{person.inner_text}
+      </Person>;
+    });
+
     return (
       <div className="App">
+        <h1>Assignment 2</h1>
+        <InputField
+          inputFieldChangedHandler={this.inputFieldChangedHandler}
+          inputFieldValue={this.state.inputField}
+          inputFieldLength={this.state.inputField.length}
+        />
+
         <h1>Assignment 1</h1>
         <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
         <UserOutput username={this.state.username} />
@@ -57,16 +81,7 @@ class App extends Component {
         <h2>{this.state.sample_attribute}</h2>
         <button style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
-        <Person
-          click={this.switchPersonsHandler} changed={this.nameChangedHandler}
-          name={this.state.persons[0].name} age={this.state.persons[0].age}
-        >{this.state.persons[0].inner_text}
-        </Person>
-        <Person
-          click={this.switchPersonsHandler} changed={this.nameChangedHandler}
-          name={this.state.persons[1].name} age={this.state.persons[1].age}
-        >{this.state.persons[1].inner_text}
-        </Person>
+        <div>{persons}</div>
       </div>
     );
   }
