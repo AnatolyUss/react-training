@@ -72,6 +72,7 @@ class App extends Component {
   }
 
   showPersonsOnClickHandler = event => {
+    // buttonStyle.backgroundColor = this.state.showPersons ? 'green' : 'red';
     this.setState({ showPersons: !this.state.showPersons });
   }
 
@@ -91,7 +92,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
