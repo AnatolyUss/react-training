@@ -19,6 +19,7 @@ class App extends Component {
   state = {
     sample_attribute: 'sample sample',
     username: '',
+    showPersons: true,
     inputField: '',
     persons: [
       { id: 0, name: 'Anna', age: this.getAge(), inner_text: undefined },
@@ -70,6 +71,24 @@ class App extends Component {
     });
   }
 
+  showPersonsOnClickHandler = event => {
+    this.setState({ showPersons: !this.state.showPersons });
+  }
+
+  getPersons = () => {
+    if (this.state.showPersons) {
+      return this.state.persons.map(person => {
+        return <Person
+          click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
+          key={person.id} name={person.name} age={person.age}
+        >{person.inner_text}
+        </Person>;
+      });
+    }
+
+    return null;
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -78,14 +97,6 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     };
-
-    const persons = this.state.persons.map(person => {
-      return <Person
-        click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
-        key={person.id} name={person.name} age={person.age}
-      >{person.inner_text}
-      </Person>;
-    });
 
     return (
       <div className="App">
@@ -105,7 +116,13 @@ class App extends Component {
         <h2>{this.state.sample_attribute}</h2>
         <button style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
-        <div>{persons}</div>
+        <button
+          style={style}
+          onClick={this.showPersonsOnClickHandler}>
+          {this.state.showPersons ? 'Hide persons' : 'Show persons'}
+        </button>
+
+        <div>{this.getPersons()}</div>
       </div>
     );
   }
