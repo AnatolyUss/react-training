@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium, { StyleRoot } from 'radium';
 import './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
@@ -97,37 +98,45 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     return (
-      <div className="App">
-        <h1>Assignment 2</h1>
-        <InputField
-          inputFieldChangedHandler={this.inputFieldChangedHandler}
-          inputFieldValue={this.state.inputField}
-          inputFieldLength={this.state.inputField.length}
-        />
-        <ValidationComponent inputFieldLength={this.state.inputField.length} />
-        {this.getInputFieldValueAsCharsArray()}
+      // <!-- StyleRoot component must wrap the entire app to enable Radium media quires. -->
+      <StyleRoot>
+        <div className="App">
+          <h1>Assignment 2</h1>
+          <InputField
+            inputFieldChangedHandler={this.inputFieldChangedHandler}
+            inputFieldValue={this.state.inputField}
+            inputFieldLength={this.state.inputField.length}
+          />
+          <ValidationComponent inputFieldLength={this.state.inputField.length} />
+          {this.getInputFieldValueAsCharsArray()}
 
-        <h1>Assignment 1</h1>
-        <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
-        <UserOutput username={this.state.username} />
-        <h1>Hey, I'm a React app!</h1>
-        <h2>{this.state.sample_attribute}</h2>
-        <button style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
+          <h1>Assignment 1</h1>
+          <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
+          <UserOutput username={this.state.username} />
+          <h1>Hey, I'm a React app!</h1>
+          <h2>{this.state.sample_attribute}</h2>
+          <button key="Switch persons" style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
-        <button
-          style={style}
-          onClick={this.showPersonsOnClickHandler}>
-          {this.state.showPersons ? 'Hide persons' : 'Show persons'}
-        </button>
+          <button
+            key="Show/Hide persons"
+            style={style}
+            onClick={this.showPersonsOnClickHandler}>
+            {this.state.showPersons ? 'Hide persons' : 'Show persons'}
+          </button>
 
-        <div>{this.getPersons()}</div>
-      </div>
+          <div>{this.getPersons()}</div>
+        </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
