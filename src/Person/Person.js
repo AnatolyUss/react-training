@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Radium from 'radium';
 import './Person.css';
 
 class Person extends Component {
@@ -8,6 +7,10 @@ class Person extends Component {
   }
 
   render() {
+    // if (Math.random() > 0.7) {
+    //   throw new Error('Something went wrong ((');
+    // }
+
     const style = {
       '@media (minWidth: 500px)': {
         width: '450px'
@@ -24,4 +27,4 @@ class Person extends Component {
   }
 }
 
-export default Radium(Person);
+export default Person;

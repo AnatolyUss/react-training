@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Radium, { StyleRoot } from 'radium';
 import './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
@@ -7,6 +6,7 @@ import UserOutput from './UserOutput/UserOutput';
 import InputField from './InputField/InputField';
 import ValidationComponent from './ValidationComponent/ValidationComponent';
 import CharComponent from './CharComponent/CharComponent';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   constructor(props) {
@@ -18,13 +18,13 @@ class App extends Component {
   }
 
   state = {
-    sample_attribute: 'sample sample',
+    sampleAttribute: 'sample sample',
     username: '',
     showPersons: true,
     inputField: '',
     persons: [
-      { id: 0, name: 'Anna', age: this.getAge(), inner_text: undefined },
-      { id: 1, name: 'Bella', age: this.getAge(), inner_text: 'I\'m good!' },
+      { id: 0, name: 'Anna', age: this.getAge(), innerText: undefined },
+      { id: 1, name: 'Bella', age: this.getAge(), innerText: 'I\'m good!' },
     ]
   }
 
@@ -80,11 +80,13 @@ class App extends Component {
   getPersons = () => {
     if (this.state.showPersons) {
       return this.state.persons.map(person => {
-        return <Person
-          click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
-          key={person.id} name={person.name} age={person.age}
-        >{person.inner_text}
-        </Person>;
+        return <ErrorBoundary key={person.id}>
+            <Person
+            click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
+            name={person.name} age={person.age}
+          >{person.innerText}
+          </Person>
+        </ErrorBoundary>;
       });
     }
 
@@ -106,37 +108,34 @@ class App extends Component {
     };
 
     return (
-      // <!-- StyleRoot component must wrap the entire app to enable Radium media quires. -->
-      <StyleRoot>
-        <div className="App">
-          <h1>Assignment 2</h1>
-          <InputField
-            inputFieldChangedHandler={this.inputFieldChangedHandler}
-            inputFieldValue={this.state.inputField}
-            inputFieldLength={this.state.inputField.length}
-          />
-          <ValidationComponent inputFieldLength={this.state.inputField.length} />
-          {this.getInputFieldValueAsCharsArray()}
+      <div className="App">
+        <h1>Assignment 2</h1>
+        <InputField
+          inputFieldChangedHandler={this.inputFieldChangedHandler}
+          inputFieldValue={this.state.inputField}
+          inputFieldLength={this.state.inputField.length}
+        />
+        <ValidationComponent inputFieldLength={this.state.inputField.length} />
+        {this.getInputFieldValueAsCharsArray()}
 
-          <h1>Assignment 1</h1>
-          <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
-          <UserOutput username={this.state.username} />
-          <h1>Hey, I'm a React app!</h1>
-          <h2>{this.state.sample_attribute}</h2>
-          <button key="Switch persons" style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
+        <h1>Assignment 1</h1>
+        <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
+        <UserOutput username={this.state.username} />
+        <h1>Hey, I'm a React app!</h1>
+        <h2>{this.state.sampleAttribute}</h2>
+        <button key="Switch persons" style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
-          <button
-            key="Show/Hide persons"
-            style={style}
-            onClick={this.showPersonsOnClickHandler}>
-            {this.state.showPersons ? 'Hide persons' : 'Show persons'}
-          </button>
+        <button
+          key="Show/Hide persons"
+          style={style}
+          onClick={this.showPersonsOnClickHandler}>
+          {this.state.showPersons ? 'Hide persons' : 'Show persons'}
+        </button>
 
-          <div>{this.getPersons()}</div>
-        </div>
-      </StyleRoot>
+        <div>{this.getPersons()}</div>
+      </div>
     );
   }
 }
 
-export default Radium(App);
+export default App;
