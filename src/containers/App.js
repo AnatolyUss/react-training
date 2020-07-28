@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person';
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
-import InputField from './InputField/InputField';
-import ValidationComponent from './ValidationComponent/ValidationComponent';
-import CharComponent from './CharComponent/CharComponent';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons';
+import UserInput from '../components/UserInput/UserInput';
+import UserOutput from '../components/UserOutput/UserOutput';
+import InputField from '../components/InputField/InputField';
+import ValidationComponent from '../components/ValidationComponent/ValidationComponent';
+import CharComponent from '../components/CharComponent/CharComponent';
 
 class App extends Component {
   constructor(props) {
@@ -77,22 +76,6 @@ class App extends Component {
     this.setState({ showPersons: !this.state.showPersons });
   }
 
-  getPersons = () => {
-    if (this.state.showPersons) {
-      return this.state.persons.map(person => {
-        return <ErrorBoundary key={person.id}>
-            <Person
-            click={this.switchPersonsHandler} changed={event => this.nameChangedHandler(event, person.id)}
-            name={person.name} age={person.age}
-          >{person.innerText}
-          </Person>
-        </ErrorBoundary>;
-      });
-    }
-
-    return null;
-  }
-
   render() {
     const style = {
       backgroundColor: 'green',
@@ -132,7 +115,12 @@ class App extends Component {
           {this.state.showPersons ? 'Hide persons' : 'Show persons'}
         </button>
 
-        <div>{this.getPersons()}</div>
+        <Persons
+          showPersons={this.state.showPersons}
+          persons={this.state.persons}
+          switchPersonsHandler={this.switchPersonsHandler}
+          nameChangedHandler={this.nameChangedHandler}
+        />
       </div>
     );
   }
