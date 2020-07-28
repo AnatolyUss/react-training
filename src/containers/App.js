@@ -6,6 +6,8 @@ import UserOutput from '../components/UserOutput/UserOutput';
 import InputField from '../components/InputField/InputField';
 import ValidationComponent from '../components/ValidationComponent/ValidationComponent';
 import CharComponent from '../components/CharComponent/CharComponent';
+import ShowPersonsButton from '../components/ShowPersonsButton/ShowPersonsButton';
+import SwitchPersonsButton from '../components/SwitchPersonsButton/SwitchPersonsButton';
 
 class App extends Component {
   constructor(props) {
@@ -104,16 +106,17 @@ class App extends Component {
         <h1>Assignment 1</h1>
         <UserInput inputUsernameChangeHandler={this.inputUsernameChangeHandler} username={this.state.username} />
         <UserOutput username={this.state.username} />
+
         <h1>Hey, I'm a React app!</h1>
         <h2>{this.state.sampleAttribute}</h2>
-        <button key="Switch persons" style={style} onClick={this.switchPersonsHandler}>Switch persons</button>
 
-        <button
-          key="Show/Hide persons"
+        <SwitchPersonsButton style={style} switchPersonsHandler={this.switchPersonsHandler} />
+
+        <ShowPersonsButton
           style={style}
-          onClick={this.showPersonsOnClickHandler}>
-          {this.state.showPersons ? 'Hide persons' : 'Show persons'}
-        </button>
+          showPersonsOnClickHandler={this.showPersonsOnClickHandler}
+          showPersons={this.state.showPersons}
+        />
 
         <Persons
           showPersons={this.state.showPersons}
