@@ -15,7 +15,11 @@ class Assignment_2 extends Component {
     const inputFieldCloneAsArray = inputFieldClone.split('');
     inputFieldCloneAsArray.splice(charPosition, 1)
     const upToDateInputField = inputFieldCloneAsArray.join('');
-    this.setState({ inputField: upToDateInputField });
+    this.setState((prevState, props) => {
+      return {
+        inputField: upToDateInputField
+      };
+    });
   }
 
   getInputFieldValueAsCharsArray = () => {

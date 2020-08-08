@@ -30,7 +30,7 @@ class App extends Component {
     this.state.persons[0] = this.state.persons[1];
     this.state.persons[1] = tempPerson;
 
-    this.setState(this.state.persons);
+    this.setState((prevState, props) => this.state.persons);
   }
 
   nameChangedHandler = (event, personId) => {
@@ -38,12 +38,20 @@ class App extends Component {
     const person = persons.find(person => person.id === personId);
     person.name = event.target.value;
     this.state.persons[personId] = person;
-    this.setState({ persons: persons });
+    this.setState((prevState, props) => {
+      return {
+        persons: persons
+      };
+    });
   }
 
   showPersonsOnClickHandler = event => {
     // buttonStyle.backgroundColor = this.state.showPersons ? 'green' : 'red';
-    this.setState({ showPersons: !this.state.showPersons });
+    this.setState((prevState, props) => {
+      return {
+        showPersons: !prevState.showPersons
+      };
+    });
   }
 
   render() {
