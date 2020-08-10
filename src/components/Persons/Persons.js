@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from '../../hoc/ErrorBoundary/ErrorBoundary';
 import Person from './Person/Person';
 
 class Persons extends Component {
